@@ -1,0 +1,157 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/examine_item.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/dialogue_trigger.gd" id="3"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.015, 0.015, 0.025, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.3, 0.38, 1)
+ambient_light_energy = 0.4
+fog_enabled = true
+fog_light_color = Color(0.04, 0.04, 0.06, 1)
+fog_density = 0.06
+
+[sub_resource type="BoxMesh" id="floor_mesh"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="BoxShape3D" id="floor_shape"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="StandardMaterial3D" id="floor_mat"]
+albedo_color = Color(0.18, 0.16, 0.15, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="wall_mesh"]
+size = Vector3(24, 4, 0.3)
+
+[sub_resource type="BoxShape3D" id="wall_shape"]
+size = Vector3(24, 4, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="wall_mat"]
+albedo_color = Color(0.23, 0.21, 0.19, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="note_mesh"]
+size = Vector3(0.3, 0.04, 0.42)
+
+[sub_resource type="BoxShape3D" id="note_shape"]
+size = Vector3(0.45, 0.25, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="note_mat"]
+albedo_color = Color(0.88, 0.84, 0.7, 1)
+
+[sub_resource type="CapsuleMesh" id="npc_mesh"]
+radius = 0.35
+height = 1.7
+
+[sub_resource type="CapsuleShape3D" id="npc_shape"]
+radius = 0.4
+height = 1.7
+
+[sub_resource type="StandardMaterial3D" id="npc_mat"]
+albedo_color = Color(0.08, 0.08, 0.1, 1)
+roughness = 1.0
+
+[node name="TestLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707, 0.707, 0, -0.707, 0.707, 0, 10, 0)
+light_color = Color(0.55, 0.6, 0.8, 1)
+light_energy = 0.15
+shadow_enabled = true
+
+[node name="Lamp" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -3)
+light_color = Color(1, 0.85, 0.6, 1)
+light_energy = 0.9
+omni_range = 9.0
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("floor_mesh")
+surface_material_override/0 = SubResource("floor_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("floor_shape")
+
+[node name="WallN" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallN"]
+mesh = SubResource("wall_mesh")
+surface_material_override/0 = SubResource("wall_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="WallN"]
+shape = SubResource("wall_shape")
+
+[node name="WallS" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallS"]
+mesh = SubResource("wall_mesh")
+surface_material_override/0 = SubResource("wall_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="WallS"]
+shape = SubResource("wall_shape")
+
+[node name="WallE" type="StaticBody3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 12, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallE"]
+mesh = SubResource("wall_mesh")
+surface_material_override/0 = SubResource("wall_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="WallE"]
+shape = SubResource("wall_shape")
+
+[node name="WallW" type="StaticBody3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallW"]
+mesh = SubResource("wall_mesh")
+surface_material_override/0 = SubResource("wall_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="WallW"]
+shape = SubResource("wall_shape")
+
+[node name="Note" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.13, -3)
+script = ExtResource("2")
+prompt_text = "Прочитать"
+item_name = "Записка"
+description = "«Не доверяй тому, кто ждёт тебя в темноте.»"
+
+[node name="Mesh" type="MeshInstance3D" parent="Note"]
+mesh = SubResource("note_mesh")
+surface_material_override/0 = SubResource("note_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="Note"]
+shape = SubResource("note_shape")
+
+[node name="Stranger" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
+script = ExtResource("3")
+prompt_text = "Поговорить"
+dialogue_file = "res://dialogues/sample_dialogue.json"
+dialogue_key = "stranger_intro"
+set_flag = "met_stranger"
+
+[node name="Mesh" type="MeshInstance3D" parent="Stranger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("npc_mesh")
+surface_material_override/0 = SubResource("npc_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="Stranger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("npc_shape")
+
+[node name="Player" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 5)

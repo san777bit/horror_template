@@ -1,0 +1,11 @@
+{
+	"stranger_intro": [
+		{"name": "???", "text": "Ты всё-таки пришёл...", "portrait": "res://assets/portraits/stranger.png"},
+		{"name": "Незнакомец", "text": "Здесь небезопасно после заката. Двери перестают открываться.", "portrait": "res://assets/portraits/stranger.png"},
+		{"name": "Я", "text": "Я не уйду, пока не найду её."}
+	],
+	"cutscene_example": [
+		{"image": "res://assets/art2d/example_scene_1.png", "text": "Той ночью шёл дождь."},
+		{"image": "res://assets/art2d/example_scene_2.png", "name": "Голос", "text": "...и кто-то стоял у окна."}
+	]
+}

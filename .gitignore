@@ -1,0 +1,16 @@
+# Godot 4 — кэш и импортированные ресурсы
+.godot/
+*.import
+
+# Экспортированные билды
+export.cfg
+export_presets.cfg
+build/
+*.exe
+*.pck
+*.zip
+
+# Системный мусор
+.DS_Store
+Thumbs.db
+desktop.ini
